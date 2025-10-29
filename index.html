@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>春山待婧来 - 霸道总裁小说</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Microsoft YaHei', 'SimSun', serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: #e6e6e6;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite alternate;
+        }
+        
+        @keyframes twinkle {
+            0% { opacity: 0.2; }
+            100% { opacity: 1; }
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+        }
+        
+        h1 {
+            font-size: 3.5rem;
+            background: linear-gradient(45deg, #ff6b6b, #feca57, #48dbfb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 15px rgba(255, 107, 107, 0.3);
+            margin-bottom: 20px;
+            letter-spacing: 3px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: #a29bfe;
+            margin-bottom: 10px;
+        }
+        
+        .author {
+            color: #6c5ce7;
+            font-style: italic;
+        }
+        
+        .page-container {
+            position: relative;
+            min-height: 600px;
+            perspective: 1000px;
+        }
+        
+        .page {
+            position: absolute;
+            width: 100%;
+            padding: 40px;
+            background: rgba(25, 25, 40, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5),
+                        0 0 20px rgba(72, 219, 251, 0.1);
+            border: 1px solid rgba(72, 219, 251, 0.2);
+            opacity: 0;
+            transform: translateY(30px) rotateX(10deg);
+            transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .page.active {
+            opacity: 1;
+            transform: translateY(0) rotateX(0);
+            z-index: 10;
+        }
+        
+        .page-title {
+            font-size: 2.2rem;
+            color: #00cec9;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(0, 206, 201, 0.3);
+            text-align: center;
+        }
+        
+        .content {
+            font-size: 1.1rem;
+            line-height: 2.2;
+            text-indent: 2em;
+            flex: 1;
+        }
+        
+        .highlight {
+            color: #fdcb6e;
+            font-weight: bold;
+            text-shadow: 0 0 8px rgba(253, 203, 110, 0.5);
+        }
+        
+        .emotion-indicator {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        .emotion-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin: 0 8px;
+            background: #444;
+            transition: all 0.3s ease;
+        }
+        
+        .emotion-dot.active {
+            transform: scale(1.5);
+            box-shadow: 0 0 15px currentColor;
+        }
+        
+        .joy { background: #fdcb6e; }
+        .sorrow { background: #d63031; }
+        .love { background: #e84393; }
+        
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        
+        .nav-btn {
+            background: rgba(72, 219, 251, 0.2);
+            color: #48dbfb;
+            border: 1px solid rgba(72, 219, 251, 0.5);
+            padding: 12px 30px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .nav-btn:hover {
+            background: rgba(72, 219, 251, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(72, 219, 251, 0.3);
+        }
+        
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            color: #636e72;
+            font-size: 0.9rem;
+        }
+        
+        .character-info {
+            display: flex;
+            justify-content: space-around;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        
+        .character {
+            background: rgba(52, 73, 94, 0.3);
+            padding: 20px;
+            border-radius: 15px;
+            width: 45%;
+            margin-bottom: 20px;
+            border: 1px solid rgba(52, 73, 94, 0.5);
+        }
+        
+        .character-name {
+            font-size: 1.4rem;
+            color: #00b894;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .three-joys, .three-falls {
+            margin: 25px 0;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            border-left: 4px solid #00b894;
+        }
+        
+        .section-title {
+            font-size: 1.3rem;
+            color: #0984e3;
+            margin: 20px 0 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed #0984e3;
+        }
+        
+        .emotion-wave {
+            height: 6px;
+            background: linear-gradient(90deg, 
+                #d63031 0%, #fdcb6e 25%, #00b894 50%, #0984e3 75%, #6c5ce7 100%);
+            border-radius: 3px;
+            margin: 20px 0;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .wave-progress {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 0%;
+            background: rgba(255, 255, 255, 0.8);
+            transition: width 0.5s ease;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .page {
+                padding: 25px;
+            }
+            
+            .page-title {
+                font-size: 1.8rem;
+            }
+            
+            .content {
+                font-size: 1rem;
+            }
+            
+            .character {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    
+    <div class="container">
+        <header>
+            <h1>春遇婧时</h1>
+            <p class="subtitle">一段关于爱与释怀的深情故事有加入加qq784818677群</p>
+            <p class="author">—— 韩晓春</p>
+        </header>
+        
+        <div class="page-container">
+            <!-- 第一页：封面 -->
+            <div class="page active" id="page-0">
+                <h2 class="page-title">第一章 迟到的同桌</h2>
+                <div class="content">
+                    <p>九月的风还裹着夏末的热意，吹得教学楼前的香樟叶沙沙响。韩晓春拎着半旧的书包，在预备铃响到第三声时，冲进了高一（3）班的教室。</p>
+                    <br>
+                    <p>班主任李老师正站在讲台上念座位表，见他气喘吁吁地倚着门，眉头皱了皱：“韩晓春，开学第一天就迟到？最后一排，赵佳婧旁边的空位，过去坐。”</p>
+                    <br>
+                    <p>韩晓春顺着老师指的方向看去，教室最后一排靠窗的位置，坐着个穿白色连衣裙的女生。她背挺得很直，手里握着一支黑色钢笔，正低头在笔记本上写着什么，阳光落在她的发梢，镀了层浅金色。</p>
+                    <br>
+                    <p>他轻手轻脚走过去，把书包放在空椅子上，刚想坐下，女生突然侧过头。赵佳婧的眼睛很亮，像浸了晨露的葡萄，她递过来一块浅蓝色橡皮，声音轻轻的：“你的橡皮掉了。”</p>
+                    <br/>
+                     <p>韩晓春这才发现，自己刚才跑进来时，书包拉链没拉好，橡皮滚到了她脚边。他接过橡皮，指尖不小心碰到她的指腹，两人都顿了一下。他连忙收回手，低声说了句 “谢谢”。</p>
+                    <br>
+                    <p>上课铃响后，数学老师开始讲函数。韩晓春没怎么听，趴在桌子上，侧头看着窗外。操场里有新生在军训，口号声断断续续飘进来，他的指尖在窗沿上轻轻敲着，心里想着早上帮邻居搬花盆耽误的时间 —— 早知道就不逞能搬那盆最大的月季了。</p>
+                    <br>
+                    <p>“别走神。”</p>
+                    <br>
+                    <p>旁边传来一声极轻的提醒，韩晓春转头，看到赵佳婧把笔记本往他这边推了推。本子上的字迹工整得像打印的，重点公式用红笔标了线，旁边还写着 “注意定义域” 的小字。</p>
+                    <br/>
+                    <p>他挑了挑眉，在本子空白处写了句 “你写字真好看”，推了回去。赵佳婧瞥了一眼，没再理他，只是耳朵尖悄悄红了。</p>
+                </div>
+                
+                <div class="character-info">
+                    <div class="character">
+                        <h3 class="character-name">韩晓春</h3>
+                        <p>姓韩的年轻人，偏爱万物复苏的季节，内心藏着不为人知的柔软。表面冷静克制，实则情感丰富，对爱情有着近乎执着的追求。</p>
+                    </div>
+                    <div class="character">
+                        <h3 class="character-name">赵佳婧</h3>
+                        <p>眉眼明亮的赵姓姑娘，遇事比寻常人多几分沉静。聪慧独立，内心坚韧，对待感情真挚而深沉，是韩生命中最特别的存在。</p>
+                    </div>
+                </div>
+                
+                <div class="emotion-wave">
+                    <div class="wave-progress" style="width: 0%;"></div>
+                </div>
+                
+                <div class="navigation">
+                    <button class="nav-btn" disabled>
+                        <span>← 上一页</span>
+                    </button>
+                    <button class="nav-btn" onclick="nextPage()">
+                        <span>下一页 →</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- 第二章 卡住的钢笔 -->
+            <div class="page" id="page-1">
+                <h2 class="page-title">第二章 卡住的钢笔</h2>
+                <div class="emotion-indicator">
+                    <div class="emotion-dot joy active"></div>
+                    <div class="emotion-dot sorrow"></div>
+                    <div class="emotion-dot love"></div>
+                </div>
+                <div class="content">
+                    <p class="highlight">"你知道吗？钢笔不只是文具"</p>
+                    <br>
+                    <p>开学第一周，韩晓春和赵佳婧的交流大多围绕 “借东西” 展开。他借她的尺子，她借他的草稿纸，偶尔课下碰到，也只是点头打个招呼。</p>
+                    <br>
+                    <p>周五下午有节自习课，赵佳婧写作业时，钢笔突然卡住了。她拧开笔帽，对着笔尖哈气，又用纸巾擦了擦，可墨水还是出不来。她急得皱起眉 —— 晚上要交的物理作业，还有最后一道大题没写。</p>
+                    <br>
+                    <p>“我看看。”</p>
+                    <br>
+                    <p>韩晓春的声音在旁边响起。他伸手接过钢笔，指尖碰到笔杆上的温度，心里莫名跳了一下。他仔细看了看笔尖，发现是墨水凝固堵住了细缝。他从书包里翻出一个小刀片，小心翼翼地刮着笔尖，动作轻得像在拆一件易碎品。</p>
+                    <br>
+                    <p>赵佳婧坐在旁边，看着他的侧脸。韩晓春的睫毛很长，阳光照在上面，投下淡淡的阴影。他平时看起来漫不经心，可认真做事的时候，眼神很专注。</p>
+                    <p>“好了。”</p>
+                    <br>
+                    <p>几分钟后，韩晓春把钢笔递还给她。赵佳婧试着写了几个字，墨水顺畅地流出来，比之前还要好用。她抬头想道谢，却看到韩晓春正低头收拾刀片，耳尖有点红。</p>
+                    <br>
+                    <p>“谢谢你啊。” 她轻声说。</p>
+                    <br>
+                    <p>韩晓春摆摆手，转回头看向窗外，心里却在想 —— 刚才拿钢笔时，好像碰到她的手了，她的手软软的，比他的橡皮还软。</p>
+                    <br>
+                    
+                </div>
+                
+                <div class="three-joys">
+                    <h3 class="section-title">初识心动</h3>
+                    <p>当韩第一次意识到自己爱上赵的那一刻，他的世界仿佛被点亮了。那种纯粹的心动，让他重新相信了爱情的美好。</p>
+                </div>
+                
+                <div class="emotion-wave">
+                    <div class="wave-progress" style="width: 20%;"></div>
+                </div>
+                
+                <div class="navigation">
+                    <button class="nav-btn" onclick="prevPage()">
+                        <span>← 上一页</span>
+                    </button>
+                    <button class="nav-btn" onclick="nextPage()">
+                        <span>下一页 →</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- 第三章 留堂的下午-->
+            <div class="page" id="page-2">
+                <h2 class="page-title">第三章 留堂的下午</h2>
+                <div class="emotion-indicator">
+                    <div class="emotion-dot joy active"></div>
+                    <div class="emotion-dot sorrow"></div>
+                    <div class="emotion-dot love active"></div>
+                </div>
+                <div class="content">
+                    <p class="highlight">"我想用余生，陪你走过每一个春天。"</p>
+                    <br>
+                    <p>第二周的语文课，老师讲朱自清的《春》。韩晓春听得犯困，偷偷在下面给前桌传纸条，问周末要不要去打球。</p>
+                    <br/>
+                    <p>纸条刚递出去一半，就被语文老师抓了个正着。“韩晓春，上课传纸条，站起来！”</p>
+                    <br>
+                    <p>韩晓春没办法，只好磨磨蹭蹭地站起来。老师走过来，拿起他桌上的本子，翻了翻，突然皱起眉：“这不是你的本子吧？”</p>
+                    <br>
+                    <p>韩晓春这才发现，刚才情急之下，他把赵佳婧的语文练习本放在了自己桌上，想假装在看笔记。他尴尬地挠挠头，说不出话来。</p>
+                    <br>
+                    <p>“赵佳婧，你也站起来。” 老师的声音沉了沉，“上课不提醒同桌，还把本子借他打掩护，你们俩课后都留下，把《春》抄一遍。”</p>
+                    <br>
+                    <p>下课铃响后，同学们都收拾书包走了。教室里只剩下韩晓春和赵佳婧，两人对着桌上的纸笔，谁都没说话。</p>
+                    <p>“对不起啊，” 韩晓春先开口，“都怪我，害你也留堂。”</p>
+                    <br/>
+                    <p>赵佳婧摇摇头，拿起笔开始抄课文。她的字迹还是那么工整，一笔一划都很认真。韩晓春看着她，也拿起笔，慢慢抄起来。</p>
+                    <br>
+                    <p>夕阳透过窗户，把两人的影子拉得很长，落在摊开的课本上。韩晓春抄到 “春天像刚落地的娃娃，从头到脚都是新的” 时，偷偷看了一眼旁边的赵佳婧，她的侧脸在夕阳下，好像也带着点春天的样子。</p>
+                    <br>
+                    
+                </div>
+                
+                <div class="three-joys">
+                    <h3 class="section-title">第四章 运动会的意外</h3>
+                    <p>第四章 运动会的意外</p>
+                </div>
+                
+                <div class="emotion-wave">
+                    <div class="wave-progress" style="width: 40%;"></div>
+                </div>
+                
+                <div class="navigation">
+                    <button class="nav-btn" onclick="prevPage()">
+                        <span>← 上一页</span>
+                    </button>
+                    <button class="nav-btn" onclick="nextPage()">
+                        <span>下一页 →</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- 第四章 运动会的意外 -->
+            <div class="page" id="page-3">
+                <h2 class="page-title">第四章 运动会的意外</h2>
+                <div class="emotion-indicator">
+                    <div class="emotion-dot joy active"></div>
+                    <div class="emotion-dot sorrow"></div>
+                    <div class="emotion-dot love active"></div>
+                </div>
+                <div class="content">
+                    <p class="highlight">第四章 运动会的意外</p>
+                    <br>
+                    <p>九月底，学校举办运动会。赵佳婧报了 800 米，她体育不算好，但班里没人愿意报，她就主动举手了。</p>
+                    <br>
+                    <p>比赛那天，韩晓春坐在观众席上，眼睛一直盯着跑道。他看到赵佳婧站在起跑线上，穿着浅蓝色的运动服，头发扎成马尾，看起来有点紧张。</p>
+                    <br>
+                    <p>发令枪响后，赵佳婧跟着大部队跑起来。前两圈还跟得上，到第三圈时，她的脚步渐渐慢了下来。韩晓春在台下看得着急，忍不住站起来喊：“赵佳婧，加油！”</p>
+                    <p>不知道是不是听到了他的声音，赵佳婧又加快了速度。可就在离终点还有五十米时，她脚下一滑，重重地摔在了跑道上。</p>
+                    <br>
+                    <p>韩晓春的心一下子揪紧了。他没顾上跟旁边的同学说一声，直接从观众席上跳下去，冲跑道跑去。他跑到赵佳婧身边，蹲下来，声音有点慌：“你怎么样？有没有摔疼？”</p>
+                    <br>
+                    <p>赵佳婧的膝盖擦破了皮，渗出血来。她咬着唇，摇了摇头：“没事，就是有点疼。”</p>
+                    <p>韩晓春从口袋里掏出纸巾，想帮她擦伤口，又怕弄疼她，动作犹豫了一下。旁边的同学递过来一瓶水，他拧开瓶盖，递到她嘴边：“先喝点水，我扶你去医务室。”</p>
+                    <br>
+                    <p>他扶着赵佳婧站起来，她的体重很轻，靠在他胳膊上，带着点淡淡的洗发水香味。韩晓春的心跳又开始加速，他偷偷用余光看她，发现她的脸也红了。</p>
+                    <br>
+                </div>
+                
+                <div class="three-joys">
+                    <h3 class="section-title">第五章 错题本上的便利贴</h3>
+                    <p>第五章 错题本上的便利贴</p>
+                </div>
+                
+                <div class="emotion-wave">
+                    <div class="wave-progress" style="width: 60%;"></div>
+                </div>
+                
+                <div class="navigation">
+                    <button class="nav-btn" onclick="prevPage()">
+                        <span>← 上一页</span>
+                    </button>
+                    <button class="nav-btn" onclick="nextPage()">
+                        <span>下一页 →</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!--第五章 错题本上的便利贴 -->
+            <div class="page" id="page-4">
+                <h2 class="page-title">命运转折</h2>
+                <div class="emotion-indicator">
+                    <div class="emotion-dot joy"></div>
+                    <div class="emotion-dot sorrow active"></div>
+                    <div class="emotion-dot love"></div>
+                </div>
+                <div class="content">
+                    <p class="highlight">第五章 错题本上的便利贴</p>
+                    <br>
+                    <p>十月月考，赵佳婧的数学考砸了。试卷发下来时，她看着上面的红叉，眼圈有点红。她平时数学挺好的，这次却因为一道大题算错数，丢了十几分。</p>
+                    <br>
+                    <p>晚自习时，赵佳婧趴在桌子上，盯着试卷发呆。韩晓春看到她的样子，心里有点不舒服。他从书包里翻出自己的数学错题本，翻开，里面贴满了各种颜色的便利贴，每道题下面都写着详细的解题步骤。</p>
+                    <br>
+                    <p>他把错题本推到赵佳婧面前：“看看这个，说不定对你有帮助。</p>
+                    <br>
+                    <p>赵佳婧抬起头，接过错题本。她翻开第一页，就看到一张黄色的便利贴，上面写着 “这道题我当初也算错了，笨蛋”。她忍不住笑了笑，继续往下翻，每道题的便利贴都写得很认真，有的还画了小表情。</p>
+                    <br>
+                    <p>翻到最后一页时，她看到一张粉色的便利贴，上面写着：“赵佳婧，你比公式可爱多了，下次别因为错题哭啦。”</p>
+                    <br>
+                    <p>她的心跳漏了一拍，抬头看向韩晓春。他正低头假装看课本，耳朵尖却红得很明显。赵佳婧把错题本抱在怀里，嘴角忍不住往上扬 —— 原来这个看起来漫不经心的男生，也会这么细心。</p>
+                </div>
+                
+                <div class="three-falls">
+                    <h3 class="section-title">礼物🎁</h3>
+                    <p>第六章 圣诞夜的礼物</p>
+                </div>
+                
+                <div class="emotion-wave">
+                    <div class="wave-progress" style="width: 55%;"></div>
+                </div>
+                
+                <div class="navigation">
+                    <button class="nav-btn" onclick="prevPage()">
+                        <span>← 上一页</span>
+                    </button>
+                    <button class="nav-btn" onclick="nextPage()">
+                        <span>下一页 →</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- 第六章 圣诞夜的礼物 -->
+            <div class="page" id="page-5">
+                <h2 class="page-title">第二落 · 错过重逢</h2>
+                <div class="emotion-indicator">
+                    <div class="emotion-dot joy"></div>
+                    <div class="emotion-dot sorrow active"></div>
+                    <div class="emotion-dot love active"></div>
+                </div>
+                <div class="content">
+                    <p class="highlight">"礼物"</p>
+                    <br>
+                    <p>十二月的风越来越冷，教室里开始有了圣诞的气息。班长提议圣诞夜搞个互换礼物的活动，每个人准备一份礼物，放在讲台上，随机抽取。</p>
+                    <br>
+                    <p>赵佳婧准备礼物时，纠结了很久。她想给韩晓春准备一份特别的礼物，最后决定织一条围巾。她从家里找了毛线，每天晚上写完作业后，就坐在台灯下织围巾。织错了好几次，手指也被针扎破了，可她还是坚持织完了。</p>
+                    <br>
+                    <p>圣诞夜那天，教室里挂满了彩带和气球。同学们轮流上去抽礼物，韩晓春抽到的礼物，是一个浅蓝色的盒子。他打开盒子，看到里面放着一条灰色的围巾，围巾角上绣着一个小小的 “婧” 字。</p>
+                    <br>
+                    <p>他心里一动，抬头看向赵佳婧。她正低头看着自己的礼物，脸颊红红的。韩晓春拿起围巾，走到她面前，把一个小小的花盆递给她：“这是我给你的礼物，一盆小雏菊，冬天也能开花。”</p>
+                    <br>
+                    <p>赵佳婧接过花盆，雏菊的花瓣是淡黄色的，看起来很可爱。她抬头对韩晓春笑了笑：“谢谢你，围巾我很喜欢。”</p>
+                    <br>
+                    <p>韩晓春也笑了，他把围巾围在脖子上，感觉心里暖暖的，好像冬天也不那么冷了。</p>
+                </div>
+                
+                <div class="three-falls">
+                    <h3 class="section-title">第七章 分班的选择</h3>
+                    <p>第七章 分班的选择</p>
+                </div>
+                
+                <div class="emotion-wave">
+                    <div class="wave-progress" style="width: 50%;"></div>
+                </div>
+                
+                <div class="navigation">
+                    <button class="nav-btn" onclick="prevPage()">
+                        <span>← 上一页</span>
+                    </button>
+                    <button class="nav-btn" onclick="nextPage()">
+                        <span>下一页 →</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- 第七章 分班的选择 -->
+            <div class="page" id="page-6">
+                <h2 class="page-title">第七章 分班的选择</h2>
+                <div class="emotion-indicator">
+                    <div class="emotion-dot joy"></div>
+                    <div class="emotion-dot sorrow active"></div>
+                    <div class="emotion-dot love active"></div>
+                </div>
+                <div class="content">
+                    <p class="highlight">"选择"</p>
+                    <br>
+                    <p>高一上学期快结束时，学校开始统计文理分科的选择。韩晓春的理科成绩很好，文科却一般，他毫不犹豫地选了理科。</p>
+                    <br>
+                    <p>他问赵佳婧选什么，赵佳婧说：“我也选理科，我想考的大学，理科专业更好。”</p>
+                    <br>
+                    <p>韩晓春心里很高兴，他怕赵佳婧选文科，那样他们就不能在一个班了。他看着赵佳婧，认真地说：“那我们以后还做同桌吧。”</p>
+                    <br>
+                    <p>赵佳婧的脸一下子红了，她低下头，小声说：“好啊。”</p>
+                    <br>
+                    <p>分班结果出来那天，韩晓春和赵佳婧都被分到了高二（1）班。班主任念座位表时，念到 “韩晓春，第三排靠窗，同桌赵佳婧” 时，两人同时抬头看向对方，眼里都带着笑意。</p>
+                    <br>
+                    <p>开学那天，韩晓春早早地来到教室，把赵佳婧的座位擦干净，又在她的桌洞里放了一颗草莓味的糖。赵佳婧来的时候，看到桌洞里的糖，抬头对韩晓春笑了笑：“谢谢。”</p>
+                    <br>
+                    <p>韩晓春挠挠头，说：“没什么，就是觉得这个糖好吃。”</p>
+                    <br/>
+                    <p>两人坐在一起，翻开新的课本，阳光透过窗户照进来，落在课本上，一切都好像和以前一样，又好像不一样了 —— 韩晓春知道，他对赵佳婧的心意，好像比以前更浓了。</p>
+                </div>
+                
+                <div class="three-falls">
+                    <h3 class="section-title">第八章 早到的牛奶</h3>
+                    <p>第八章 早到的牛奶</p>
+                </div>
+                
+                <div class="emotion-wave">
+                    <div class="wave-progress" style="width: 45%;"></div>
+                </div>
+                
+                <div class="navigation">
+                    <button class="nav-btn" onclick="prevPage()">
+                        <span>← 上一页</span>
+                    </button>
+                    <button class="nav-btn" onclick="nextPage()">
+                        <span>下一页 →</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- 第八章 早到的牛奶 -->
+            <div class="page" id="page-7">
+                <h2 class="page-title"></h2>
+                <div class="emotion-indicator">
+                    <div class="emotion-dot joy"></div>
+                    <div class="emotion-dot sorrow active"></div>
+                    <div class="emotion-dot love active"></div>
+                </div>
+                <div class="content">
+                    <p class="highlight">"牛奶"</p>
+                    <br>
+                    <p>高二的课程比高一难了很多，赵佳婧每天早上都起得很早，有时候来不及吃早饭，就直接去学校。</p>
+                    <br>
+                    <p>韩晓春发现后，每天都提前半小时到学校。他会在学校门口的便利店买一杯热牛奶，放在赵佳婧的桌角。等赵佳婧来的时候，牛奶还是温的。</p>
+                    <br>
+                    <p>第一次收到牛奶时，赵佳婧很惊讶，她问韩晓春：“你怎么知道我没吃早饭？”</p>
+                    <br>
+                    <p>韩晓春假装不在意地说：“猜的，我看你早上总是急匆匆的，肯定没来得及吃饭。”</p>
+                    <br>
+                    <p>其实他是每天早上在小区门口等她，看到她手里没拿早饭，就知道她又没吃。从那以后，赵佳婧每天早上都能收到一杯热牛奶，有时候是原味的，有时候是草莓味的 —— 韩晓春知道她喜欢草莓味。</p>
+                    <br>
+                    <p>有一次，赵佳婧早上吃了早饭，还是收到了牛奶。她拿着牛奶，对韩晓春说：“我今天吃早饭了，牛奶你自己喝吧。”</p>
+                    <br>
+                    <p>韩晓春却把牛奶推回去：“没事，你拿着吧，下午饿了可以喝。”</p>
+                    <br>
+                   <p>赵佳婧看着他，心里暖暖的。她知道，韩晓春做的这些小事，都是因为在意她。 </p>
+                    <br>
+                    
+                   
+                </div>
+                
+                <div class="emotion-wave">
+                    <div class="wave-progress" style="width: 40%;"></div>
+                </div>
+                
+                <div class="navigation">
+                    <button class="nav-btn" onclick="prevPage()">
+                        <span>← 上一页</span>
+                    </button>
+                    <button class="nav-btn" onclick="nextPage()">
+                        <span>下一页 →</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- 第九章 草稿本上的太阳 -->
+            <div class="page" id="page-8">
+                <h2 class="page-title">第九章 草稿本上的太阳</h2>
+                <div class="emotion-indicator">
+                    <div class="emotion-dot joy"></div>
+                    <div class="emotion-dot sorrow active"></div>
+                    <div class="emotion-dot love active"></div>
+                </div>
+                <div class="content">
+                    <p class="highlight">草稿本</p>
+                    <br>
+                    <p>韩晓春有个习惯，喜欢在草稿本的角落画小太阳。有时候是圆圆的太阳，有时候是带着笑脸的太阳，画得很可爱。</p>
+                    <br>
+                    <p>每次醒来，枕边都是湿的。他知道自己还爱着她，这份爱从未停止，只是被深深埋藏。</p>
+                    <br>
+                    <p>公司的年会上，有人提议玩"真心话大冒险"。当轮到韩时，同事调皮地问："韩总，这辈子最后悔的事是什么？"</p>
+                    <br>
+                    <p>全场安静下来。韩沉默良久，端起酒杯："我最后悔的，是让最爱的人流着泪离开。"</p>
+                    <br>
+                    <p>那一刻，所有人都看到了这位冷酷总裁眼中的泪光。</p>
+                    <br>
+                    <p>他开始整理自己的情感，写下这部名为《春山待婧来》的小说。每一个字，都是对过去的祭奠，对爱情的致敬。</p>
+                    <br>
+                    <p>"春山待婧来"，多么美的名字。可惜，当春天来临，他等待的人已经不在。而那份深藏心底的爱，也只能随着岁月静静流淌。</p>
+                </div>
+                
+                <div class="emotion-wave">
+                    <div class="wave-progress" style="width: 35%;"></div>
+                </div>
+                
+                <div class="navigation">
+                    <button class="nav-btn" onclick="prevPage()">
+                        <span>← 上一页</span>
+                    </button>
+                    <button class="nav-btn" onclick="nextPage()">
+                        <span>下一页 →</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- 第十章 递情书的男生 -->
+            <div class="page" id="page-9">
+                <h2 class="page-title">第十章 递情书的男生</h2>
+                <div class="emotion-indicator">
+                    <div class="emotion-dot joy"></div>
+                    <div class="emotion-dot sorrow active"></div>
+                    <div class="emotion-dot love active"></div>
+                </div>
+                <div class="content">
+                    <p class="highlight">"情书"</p>
+                    <br>
+                    <p>十一月的一天，课间操结束后，一个隔壁班的男生拦住了赵佳婧。他手里拿着一封粉色的情书，递给赵佳婧：“赵佳婧，我喜欢你，你能做我女朋友吗？”</p>
+                    <br>
+                    <p>赵佳婧愣了一下，连忙摆手：“对不起，我现在不想谈恋爱。”</p>
+                    <br>
+                    <p>男生有点失落，却还是把情书塞给她，转身走了。赵佳婧拿着情书，站在原地，不知道该怎么办。</p>
+                    <br>
+                    <p>这一幕，正好被韩晓春看到了。他本来想过来找赵佳婧，看到这一幕后，脚步停住了。他心里像被什么东西堵住了，闷闷的，很不舒服。</p>
+                    <br>
+                    <p>回到教室后，韩晓春一整天都没和赵佳婧说话。他趴在桌子上，看着窗外，脸色很不好。赵佳婧想跟他解释，可看到他的样子，又不知道该怎么说。</p>
+                    <br>
+                    <p>放学的时候，赵佳婧叫住韩晓春：“那个男生的情书，我没要，我还给她了。”</p>
+                    <br>
+                    <p>韩晓春停下脚步，转头看向她。他的眼神里带着点委屈，又有点生气：“真的？”</p>
+                    <br>
+                    <p>赵佳婧点点头，认真地说：“真的，我现在只想好好学习，不想谈恋爱。”</p>
+                    <br>
+                    <p>韩晓春听到这句话，心里的不舒服一下子消失了。他笑了笑，说：“那太好了，我们一起好好学习。”</p>
+                    <br>
+                    <p>赵佳婧看着他的笑脸，也笑了。她知道，韩晓春是在意她的，就像她在意他一样。</p>
+                    <br>
+                </div>
+                
+                <div class="emotion-wave">
+                    <div class="wave-progress" style="width: 30%;"></div>
+                </div>
+                
+                <div class="navigation">
+                    <button class="nav-btn" onclick="prevPage()">
+                        <span>← 上一页</span>
+                    </button>
+                    <button class="nav-btn" onclick="resetToFirstPage()" disabled>
+                        <span>回到开头</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!--第十一章 报羽毛球赛的理由 -->
+            <div class="page" id="page-9">
+                <h2 class="page-title">第十一章 报羽毛球赛的理由</h2>
+                <div class="emotion-indicator">
+                    <div class="emotion-dot joy"></div>
+                    <div class="emotion-dot sorrow active"></div>
+                    <div class="emotion-dot love active"></div>
+                </div>
+                <div class="content">
+                    <p class="highlight">"羽毛球"</p>
+                    <br>
+                    <p>十二月的课间，公告栏前围满了人 —— 学校要举办冬季羽毛球赛，各班需推选男女选手参赛。韩晓春本对这类比赛没兴趣，却在看到赵佳婧驻足公告栏时，脚步顿住了。</p>
+                    <br>
+                    <p>“你想看？” 他凑过去问。赵佳婧指尖点了点 “混合双打” 的字样，眼睛亮了亮：“我小学时练过半年羽毛球，就是打得一般。”</p>
+                    <br>
+                    <p>韩晓春心里忽然冒出个念头，他拍了拍公告栏：“那我报单打，给你看看厉害的。” 话一出口，他自己都愣了 —— 其实他羽毛球打得不算顶尖，只是刚才看到赵佳婧的眼神，就想让她多关注自己一点。</p>
+                    <br>
+                    <p>赵佳婧抬头看他，嘴角弯起：“真的？那我到时候去给你加油。”</p>
+                    <br>
+                    <p>韩晓春挠了挠头，耳尖发烫，嘴上却故作轻松：“等着吧，保证拿个好名次。”</p>
+                    <br>
+                    <p>从那天起，每天放学后，韩晓春都会留在操场练球。他找体育老师借了专业球拍，对着墙练颠球，跑着练步伐，汗水浸湿了校服后背，却一点都不觉得累 —— 他总想起赵佳婧说要去加油的样子，好像浑身都有了劲。</p>
+                    <br>
+                </div>
+                
+                <div class="emotion-wave">
+                    <div class="wave-progress" style="width: 30%;"></div>
+                </div>
+                
+                <div class="navigation">
+                    <button class="nav-btn" onclick="prevPage()">
+                        <span>← 上一页</span>
+                    </button>
+                    <button class="nav-btn" onclick="resetToFirstPage()" disabled>
+                        <span>回到开头</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+         <!--第十二章 赛前的小插曲-->
+            <div class="page" id="page-9">
+                <h2 class="page-title">第十二章 赛前的小插曲</h2>
+                <div class="emotion-indicator">
+                    <div class="emotion-dot joy"></div>
+                    <div class="emotion-dot sorrow active"></div>
+                    <div class="emotion-dot love active"></div>
+                </div>
+                <div class="content">
+                    <p class="highlight">"赛前"</p>
+                    <br>
+                    <p>比赛前一周，韩晓春在练球时不小心崴了脚。他没当回事，直到第二天走路一瘸一拐，才被赵佳婧发现。</p>
+                    <br>
+                    <p>“你怎么回事？” 赵佳婧蹲下来，想查看他的脚踝，又怕碰疼他，动作轻轻的。韩晓春往后缩了缩，假装没事：“小问题，昨天不小心扭了一下，过两天就好。</p>
+                    <br>
+                    <p>赵佳婧却皱起眉，从书包里翻出一个小小的药油：“这是我妈妈给我的，专治跌打损伤，我帮你涂吧。” 她拉着韩晓春坐在操场边的长椅上，小心翼翼地卷起他的裤脚。</p>
+                    <br>
+                    <p>脚踝已经肿起一块青紫色，赵佳婧的指尖碰到时，韩晓春忍不住吸了口气。她立刻放轻力度，蘸着药油慢慢揉着，嘴里还轻声说：“你怎么这么不小心？要是严重了，比赛怎么办？”</p>
+                    <br>
+                    <p>韩晓春看着她认真的侧脸，阳光落在她的睫毛上，心里暖暖的。他小声说：“没事，我肯定能上场，不能让你白来加油。”</p>
+                    <br>
+                    <p>赵佳婧的动作顿了一下，抬头看他，眼神里带着点嗔怪，又有点藏不住的在意：“比起比赛，我更怕你受伤。”</p>
+                    <br>
+                </div>
+                
+                <div class="emotion-wave">
+                    <div class="wave-progress" style="width: 30%;"></div>
+                </div>
+                
+                <div class="navigation">
+                    <button class="nav-btn" onclick="prevPage()">
+                        <span>← 上一页</span>
+                    </button>
+                    <button class="nav-btn" onclick="resetToFirstPage()" disabled>
+                        <span>回到开头</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!--第十三章 赛场边的加油声-->
+            <div class="page" id="page-9">
+                <h2 class="page-title">第十三章 赛场边的加油声</h2>
+                <div class="emotion-indicator">
+                    <div class="emotion-dot joy"></div>
+                    <div class="emotion-dot sorrow active"></div>
+                    <div class="emotion-dot love active"></div>
+                </div>
+                <div class="content">
+                    <p class="highlight">"加油"</p>
+                    <br>
+                    <p>比赛当天，操场的羽毛球场上围满了人。韩晓春的第一场比赛是单打小组赛，对手是高二（4）班的体育生，实力很强。</p>
+                    <br>
+                    <p>赵佳婧早早地来了，手里拿着一瓶温水和一条毛巾，站在赛场边的第一排。看到韩晓春热身，她挥了挥手：“韩晓春，别紧张，正常发挥就好！”</p>
+                    <br>
+                    <p>韩晓春朝她笑了笑，心里的紧张一下子少了大半。比赛开始后，对手的攻势很猛，连续扣杀得分，第一局韩晓春以 15:21 输掉了。</p>
+                    <br>
+                    <p>休息时，韩晓春走到场边，赵佳婧立刻递过温水：“别着急，他的扣杀虽然厉害，但步伐有点乱，你可以多吊小球。” 她刚才一直在认真看比赛，还悄悄记了对手的弱点。</p>
+                    <br>
+                    <p>韩晓春眼睛一亮，接过水喝了一口：“行，听你的。”</p>
+                    <br>
+                    <p>第二局开始，韩晓春按照赵佳婧说的，故意放慢节奏，多打吊球。对手果然被打乱了节奏，频频跑错位置。韩晓春抓住机会，连续得分，以 21:18 赢了第二局。</p>
+                    <br>
+                    <p>第三局决胜局，两人比分咬得很紧。最后一分时，韩晓春一个反手杀球，球落在对方场地界内。裁判吹响哨子，宣布韩晓春获胜。</p>
+                    <br/>
+                    <p>韩晓春立刻看向场边，赵佳婧正举着拳头，笑着喊他的名字，眼里亮晶晶的，比阳光还要耀眼。</p>
+                </div>
+                
+                <div class="emotion-wave">
+                    <div class="wave-progress" style="width: 30%;"></div>
+                </div>
+                
+                <div class="navigation">
+                    <button class="nav-btn" onclick="prevPage()">
+                        <span>← 上一页</span>
+                    </button>
+                    <button class="nav-btn" onclick="resetToFirstPage()" disabled>
+                        <span>回到开头</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+         <!--第十四章 赛后的草莓糖-->
+            <div class="page" id="page-9">
+                <h2 class="page-title">第十四章 赛后的草莓糖</h2>
+                <div class="emotion-indicator">
+                    <div class="emotion-dot joy"></div>
+                    <div class="emotion-dot sorrow active"></div>
+                    <div class="emotion-dot love active"></div>
+                </div>
+                <div class="content">
+                    <p class="highlight">"草莓糖"</p>
+                    <br>
+                    <p>韩晓春一路闯进了半决赛，最后一场比赛结束时，已经是下午五点多。他累得坐在地上，汗水顺着脸颊往下流，球衣都湿透了。</p>
+                    <br>
+                    <p>赵佳婧走过来，把毛巾递给他，又拧开温水瓶盖：“打得太好了！尤其是最后那个扣杀，太帅了！” 她的语气里满是崇拜，眼睛里闪着光。</p>
+                    <br>
+                    <p>韩晓春接过毛巾擦着脸，心里美滋滋的。他看着赵佳婧，忽然想起什么，从口袋里掏出一颗草莓糖，递到她面前：“给你，我知道你喜欢这个味道。”</p>
+                    <br>
+                    <p>这颗糖是他早上特意买的，本来想赢了比赛就送给她。赵佳婧接过糖，剥开糖纸放进嘴里，甜甜的草莓味在嘴里散开。她笑着说：“谢谢，这是我今天收到的最好的奖励。”</p>
+                    <br>
+                    <p>韩晓春看着她的笑脸，也笑了。他站起身，拍了拍身上的灰尘：“走，我请你去吃冰淇淋，就当庆祝我进决赛了。”</p>
+                    <br>
+                    <p>夕阳下，两人并肩走在校园里，影子被拉得很长。赵佳婧手里拿着冰淇淋，偶尔和韩晓春说句话，嘴角一直带着笑；韩晓春侧头看着她，心里想着 —— 要是能一直这样，就好了。</p>
+                    <br>
+                </div>
+                
+                <div class="emotion-wave">
+                    <div class="wave-progress" style="width: 30%;"></div>
+                </div>
+                
+                <div class="navigation">
+                    <button class="nav-btn" onclick="prevPage()">
+                        <span>← 上一页</span>
+                    </button>
+                    <button class="nav-btn" onclick="resetToFirstPage()" disabled>
+                        <span>回到开头</span>
+                    </button>
+                </div>
+            </div>
+            </div>
+         <!--第十五章 决赛前的约定-->
+            <div class="page" id="page-9">
+                <h2 class="page-title">第十五章 决赛前的约定</h2>
+                <div class="emotion-indicator">
+                    <div class="emotion-dot joy"></div>
+                    <div class="emotion-dot sorrow active"></div>
+                    <div class="emotion-dot love active"></div>
+                </div>
+                <div class="content">
+                    <p class="highlight">"约定"</p>
+                    <br>
+                    <p>决赛定在周末举行，对手是高三（1）班的学长，曾经拿过市羽毛球比赛的季军。韩晓春知道不好打，周末也没休息，一直在操场练球。</p>
+                    <br>
+                    <p>赵佳婧也来陪他，有时候帮他捡球，有时候坐在旁边看他练，偶尔还会给他提些小建议。周日下午，练球间隙，两人坐在长椅上晒太阳。</p>
+                    <br>
+                    <p>赵佳婧忽然说：“韩晓春，要是你赢了决赛，我有个礼物要送给你。”</p>
+                    <br>
+                    <p>韩晓春眼睛一亮：“什么礼物？能不能先透露一点？”</p>
+                    <br>
+                    <p>赵佳婧摇摇头，笑着说：“不行，等你赢了才给你。要是输了，就没有啦。”</p>
+                    <br>
+                    <p>韩晓春故作委屈：“这么严格啊？那我要是输了，岂不是很亏？”。</p>
+                    <br>
+                    <p>“那你就努力赢啊。” 赵佳婧看着他，眼神里带着鼓励，“我相信你，你肯定能做到。”</p>
+                    <br/>
+                    <p>韩晓春看着她认真的眼神，心里忽然有了底气。他举起手，对着赵佳婧比了个 “拉钩” 的手势：“好，那我们约定，我赢了决赛，你给我礼物；要是我输了，我就请你吃一个月的冰淇淋。”</p>
+                    <br/>
+                    <p>赵佳婧笑着伸出手，指尖勾住他的手指：“一言为定。”</p>
+                    <br/>
+                    <p>指尖相触的瞬间，两人都愣了一下，然后迅速收回手，耳尖都悄悄红了。阳光落在他们身上，带着冬天里难得的暖意。</p>
+                    <br/>
+                </div>
+                
+                <div class="emotion-wave">
+                    <div class="wave-progress" style="width: 30%;"></div>
+                </div>
+                
+                <div class="navigation">
+                    <button class="nav-btn" onclick="prevPage()">
+                        <span>← 上一页</span>
+                    </button>
+                    <button class="nav-btn" onclick="resetToFirstPage()" disabled>
+                        <span>回到开头</span>
+                    </button>
+                </div>
+            </div>
+        <footer>
+            <p>《春山待婧来》&copy; 2025 | 故事灵感源自真实情感经历</p>
+            <p>第 <span id="currentPage">1</span> 页，共 10 页</p>
+        </footer>
+    </div>
+
+    <script>
+        // 创建星空背景
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const starCount = 100;
+            
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                
+                // 随机位置
+                const x = Math.random() * 100;
+                const y = Math.random() * 100;
+                
+                // 随机大小
+                const size = Math.random() * 3 + 1;
+                
+                // 随机动画延迟
+                const delay = Math.random() * 3;
+                
+                star.style.left = `${x}%`;
+                star.style.top = `${y}%`;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                star.style.animationDelay = `${delay}s`;
+                
+                starsContainer.appendChild(star);
+            }
+        }
+        
+        // 页面切换功能
+        let currentPage = 0;
+        const totalPages = 10;
+        
+        function showPage(pageNumber) {
+            // 隐藏所有页面
+            document.querySelectorAll('.page').forEach((page, index) => {
+                page.classList.remove('active');
+            });
+            
+            // 显示目标页面
+            const targetPage = document.getElementById(`page-${pageNumber}`);
+            if (targetPage) {
+                targetPage.classList.add('active');
+            }
+            
+            // 更新页码显示
+            document.getElementById('currentPage').textContent = pageNumber + 1;
+            
+            // 更新导航按钮状态
+            document.querySelector('.nav-btn:first-child').disabled = (pageNumber === 0);
+            document.querySelector('.nav-btn:last-child').disabled = (pageNumber === totalPages - 1);
+            
+            // 更新当前页码
+            currentPage = pageNumber;
+        }
+        
+        function nextPage() {
+            if (currentPage < totalPages - 1) {
+                showPage(currentPage + 1);
+            }
+        }
+        
+        function prevPage() {
+            if (currentPage > 0) {
+                showPage(currentPage - 1);
+            }
+        }
+        
+        function resetToFirstPage() {
+            showPage(0);
+        }
+        
+        // 初始化
+        window.onload = function() {
+            createStars();
+            showPage(0);
+        };
+        
+        // 添加键盘导航支持
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight') {
+                nextPage();
+            } else if (e.key === 'ArrowLeft') {
+                prevPage();
+            }
+        });
+    </script>
+</body>
+</html>
